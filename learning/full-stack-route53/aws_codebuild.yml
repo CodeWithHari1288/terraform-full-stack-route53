@@ -3,25 +3,33 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing Terraform"
-      - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.9.0/terraform_1.9.0_linux_amd64.zip
+      - echo "=== Install dependencies ==="
+      - yum install -y unzip
+      - echo "=== Check architecture ==="
+      - uname -a
+      - TERRAFORM_VERSION=1.9.0
+      - TERRAFORM_ARCH=arm64   # IMPORTANT: because your CodeBuild is ARM
+      - echo "Downloading Terraform ${TERRAFORM_VERSION} for linux_${TERRAFORM_ARCH}"
+      - curl -sLo terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip"
       - unzip terraform.zip
-      - mv terraform /usr/local/bin/
+      - chmod +x terraform
+      - mv terraform /usr/local/bin/terraform
+      - which terraform
       - terraform -version
 
   pre_build:
     commands:
-      - echo "Initializing Terraform"
+      - echo "=== Terraform init ==="
       - terraform init -input=false
 
   build:
     commands:
-      - echo "Running terraform plan"
+      - echo "=== Terraform plan ==="
       - terraform plan -input=false -out=tfplan
 
   post_build:
     commands:
-      - echo "Applying terraform"
+      - echo "=== Terraform apply ==="
       - terraform apply -input=false -auto-approve tfplan
 
 artifacts:
