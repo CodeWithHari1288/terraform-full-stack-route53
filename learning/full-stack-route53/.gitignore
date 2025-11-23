@@ -1,0 +1,45 @@
+# === TERRAFORM STATE FILES ===
+*.tfstate
+*.tfstate.*
+terraform.tfstate
+terraform.tfstate.*
+
+# Terraform crash logs
+crash.log
+crash.*.log
+
+# Ignore sensitive crash files
+*.tfvars
+*.tfvars.json
+
+# Override files (these often contain secrets)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local terraform configs
+.terraformrc
+terraform.rc
+
+# === TERRAFORM WORK DIR ===
+.terraform/
+.terraform.lock.hcl
+
+# === PLAN FILES ===
+*.plan
+*.tfplan
+
+# === MODULE SOURCES (if downloaded locally) ===
+modules/**/.terraform/
+modules/**/.terraform.lock.hcl
+
+# === IDE / OS SPECIFIC FILES ===
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Th
