@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing Terraform"
+      - curl -o terraform.zip https://releases.hashicorp.com/terraform/1.9.0/terraform_1.9.0_linux_amd64.zip
+      - unzip terraform.zip
+      - mv terraform /usr/local/bin/
+      - terraform -version
+
+  pre_build:
+    commands:
+      - echo "Initializing Terraform"
+      - terraform init -input=false
+
+  build:
+    commands:
+      - echo "Running terraform plan"
+      - terraform plan -input=false -out=tfplan
+
+  post_build:
+    commands:
+      - echo "Applying terraform"
+      - terraform apply -input=false -auto-approve tfplan
+
+artifacts:
+  files:
+    - tfplan
+  discard-paths: yes
