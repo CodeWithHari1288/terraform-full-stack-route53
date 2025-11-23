@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - yum install -y unzip
+      - TERRAFORM_VERSION=1.9.0
+      - TERRAFORM_ARCH=arm64
+      - curl -sLo terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_${TERRAFORM_ARCH}.zip"
+      - unzip terraform.zip
+      - chmod +x terraform
+      - mv terraform /usr/local/bin/terraform
+      - terraform -version
+
+  pre_build:
+    commands:
+      - terraform init -input=false
+
+  build:
+    commands:
+      - echo "Running terraform destroy"
+      - terraform destroy -auto-approve
+
+artifacts: {}
