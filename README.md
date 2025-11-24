@@ -43,3 +43,18 @@ Destroy it when done:
 ```bash
 terraform destroy
 ```
+
+
+# Update packages
+sudo yum install -y unzip
+
+# Pick a Terraform version
+TERRAFORM_VERSION=1.9.0
+
+# Download Linux AMD64 binary (CloudShell is x86_64)
+curl -sLo terraform.zip "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
+
+# Unzip and move to PATH
+unzip terraform.zip
+sudo mv terraform /usr/local/bin/terraform
+terraform -version
